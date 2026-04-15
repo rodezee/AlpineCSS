@@ -12,7 +12,7 @@
     <header>
         <nav>
           <ul>
-            <li><strong>AlpineCSS</strong></li>
+            <li><strong x-text="$store.turnout.title"></strong></li>
           </ul>
           
           <input type="checkbox" id="menu-toggle" aria-label="Toggle menu">
@@ -20,8 +20,19 @@
 
           <ul class="nav-links">
             <li><a href="/" class="secondary">Home</a></li>
-            <li><a href="/user/john">Profile</a></li>
-            <li><a href="/search" role="button">Search</a></li>
+              
+              <li>
+                <details class="dropdown">
+                  <summary>Profile</summary>
+                  <ul>
+                    <li><a href="/user/john">John</a></li>
+                    <li><a href="/user/jane">Jane</a></li>
+                    <li><a href="/user/rod">Rod</a></li>
+                  </ul>
+                </details>
+              </li>
+              
+              <li><a href="/search" role="button">Search</a></li>
           </ul>
         </nav>
     </header>

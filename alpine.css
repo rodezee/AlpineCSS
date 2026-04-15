@@ -2457,110 +2457,166 @@ textarea,
   }
 }
 
-/* AlpineCSS Hamburger Extension 
+/* AlpineCSS: The Classless Hamburger & Dropdown Extension 
+  Integrates with PicoCSS Slate
 */
 
-/* 1. Hide the checkbox */
+/* --- 1. General Nav Setup --- */
+nav {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 #menu-toggle {
-  display: none;
+  display: none !important;
 }
 
-/* 2. Style the Hamburger Icon (Label) */
+/* --- 2. Hamburger Icon (Hidden on Desktop) --- */
 .hamburger-menu {
-  display: none; /* Hidden on desktop */
+  display: none !important; 
+  position: relative;
+  width: 1.5rem;
+  height: 1.2rem;
   cursor: pointer;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 2rem;
-  height: 1.5rem;
-  z-index: 10;
+  background: var(--pico-color);
+  background-clip: content-box;
+  padding: 0.4rem 0;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  margin-left: auto;
+  z-index: 100;
 }
 
-.hamburger-menu span {
-  width: 100%;
+.hamburger-menu::before, 
+.hamburger-menu::after {
+  content: "";
+  position: absolute;
+  left: 0; 
+  width: 100%; 
   height: 2px;
   background-color: var(--pico-color);
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease;
 }
 
-/* 3. Mobile Styles */
+.hamburger-menu::before { top: 0; }
+.hamburger-menu::after { bottom: 0; }
+
+/* --- 3. Dropdown Component --- */
+nav details.dropdown {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+nav details.dropdown summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  /* Match Pico's nav link spacing */
+  padding: var(--pico-nav-link-spacing-vertical) var(--pico-nav-link-spacing-horizontal);
+  color: var(--pico-secondary);
+  transition: color var(--pico-transition);
+}
+
+nav details.dropdown summary:hover {
+  color: var(--pico-primary);
+}
+
+nav details.dropdown summary::-webkit-details-marker { 
+  display: none; 
+}
+
+/* Custom Arrow Indicator */
+nav details.dropdown summary::after {
+  content: "";
+  display: inline-block;
+  width: 0.35rem;
+  height: 0.35rem;
+  margin-left: 0.5rem;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.7;
+}
+
+/* --- 4. Desktop Specific Styles (993px +) --- */
+@media (min-width: 993px) {
+  nav details.dropdown ul {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 99;
+    min-width: 150px;
+    background: var(--pico-background-color);
+    border: 1px solid var(--pico-muted-border-color);
+    border-radius: var(--pico-border-radius);
+    box-shadow: var(--pico-card-box-shadow);
+    padding: 0.5rem 0;
+    margin: 0;
+  }
+
+  nav details.dropdown ul li {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  nav details.dropdown ul li a {
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 0;
+  }
+}
+
+/* --- 5. Mobile Specific Styles (992px and below) --- */
 @media (max-width: 992px) {
   .hamburger-menu {
+    display: block !important;
+  }
+
+  .nav-links {
+    display: none;
+    width: 100%;
+    order: 10;
+    flex-direction: column;
+    padding: 1rem 0;
+    margin-top: 1rem;
+    border-top: 1px solid var(--pico-muted-border-color);
+  }
+
+  #menu-toggle:checked ~ .nav-links {
     display: flex;
   }
 
-  /* 1. Base Nav & Toggle Setup */
-  nav {
-    flex-wrap: wrap;
+  /* Hamburger Animation to 'X' */
+  #menu-toggle:checked + .hamburger-menu { 
+    background-color: transparent; 
+  }
+  #menu-toggle:checked + .hamburger-menu::before { 
+    top: 50%; 
+    transform: translateY(-50%) rotate(45deg); 
+  }
+  #menu-toggle:checked + .hamburger-menu::after { 
+    bottom: 50%; 
+    transform: translateY(50%) rotate(-45deg); 
   }
 
-  #menu-toggle {
-    display: none;
+  /* Mobile Dropdown (Accordion) */
+  nav details.dropdown { 
+    width: 100%; 
   }
-
-  /* 2. The Pseudo-Element Hamburger */
-  .hamburger-menu {
-    display: none; /* Hidden on desktop */
-    position: relative;
-    width: 1.5rem;
-    height: 1.2rem;
-    cursor: pointer;
-    margin-left: auto;
-    
-    /* The Middle Bar */
-    background: var(--pico-color);
-    background-clip: content-box;
-    padding: 0.5rem 0; /* Creates the gap for the top/bottom bars */
-    border-top: 2px solid transparent; /* Middle bar thickness helper */
-    border-bottom: 2px solid transparent;
-  }
-
-  /* The Top and Bottom Bars */
-  .hamburger-menu::before,
-  .hamburger-menu::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--pico-color);
-    transition: transform 0.3s ease, top 0.3s ease, bottom 0.3s ease;
-  }
-
-  .hamburger-menu::before { top: 0; }
-  .hamburger-menu::after { bottom: 0; }
-
-  /* 3. Mobile Display Logic */
-  @media (max-width: 992px) {
-    .hamburger-menu {
-      display: block;
-    }
-
-    .nav-links {
-      display: none;
-      width: 100%;
-      order: 10;
-      flex-direction: column;
-      padding: var(--pico-spacing) 0;
-    }
-
-    #menu-toggle:checked ~ .nav-links {
-      display: flex;
-    }
-
-    /* 4. The "X" Animation Trick */
-    #menu-toggle:checked + .hamburger-menu {
-      background-color: transparent; /* Hide the middle bar */
-    }
-
-    #menu-toggle:checked + .hamburger-menu::before {
-      top: 50%;
-      transform: translateY(-50%) rotate(45deg);
-    }
-
-    #menu-toggle:checked + .hamburger-menu::after {
-      bottom: 50%;
-      transform: translateY(50%) rotate(-45deg);
-    }
+  
+  nav details.dropdown ul {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+    border: none;
+    border-left: 2px solid var(--pico-muted-border-color);
+    margin-left: 1rem;
+    padding-left: 0.5rem;
   }
 }
