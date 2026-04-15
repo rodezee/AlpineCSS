@@ -2489,71 +2489,78 @@ textarea,
     display: flex;
   }
 
-  /* 1. Base Nav Setup */
+  /* 1. Base Nav & Toggle Setup */
   nav {
-    flex-wrap: wrap; /* Allows menu to drop to the next line */
+    flex-wrap: wrap;
   }
 
   #menu-toggle {
-    display: none; /* Always hide the actual checkbox */
+    display: none;
   }
 
-  /* 2. Hamburger Icon Styling */
+  /* 2. The Pseudo-Element Hamburger */
   .hamburger-menu {
     display: none; /* Hidden on desktop */
-    cursor: pointer;
-    flex-direction: column;
-    justify-content: space-between;
+    position: relative;
     width: 1.5rem;
     height: 1.2rem;
-    margin-left: auto; /* Pushes it to the right */
+    cursor: pointer;
+    margin-left: auto;
+    
+    /* The Middle Bar */
+    background: var(--pico-color);
+    background-clip: content-box;
+    padding: 0.5rem 0; /* Creates the gap for the top/bottom bars */
+    border-top: 2px solid transparent; /* Middle bar thickness helper */
+    border-bottom: 2px solid transparent;
   }
 
-  /* The three bars */
-  .hamburger-menu span {
-    display: block;
-    margin: 4px;
-    height: 2px;
+  /* The Top and Bottom Bars */
+  .hamburger-menu::before,
+  .hamburger-menu::after {
+    content: "";
+    position: absolute;
+    left: 0;
     width: 100%;
-    background-color: var(--pico-color); /* Uses Pico's theme color */
-    border-radius: 3px;
-    transition: 0.3s ease;
+    height: 2px;
+    background-color: var(--pico-color);
+    transition: transform 0.3s ease, top 0.3s ease, bottom 0.3s ease;
   }
 
-  /* 3. Mobile Logic (Break-point) */
+  .hamburger-menu::before { top: 0; }
+  .hamburger-menu::after { bottom: 0; }
+
+  /* 3. Mobile Display Logic */
   @media (max-width: 992px) {
     .hamburger-menu {
-      display: flex; /* Show icon on mobile */
+      display: block;
     }
 
     .nav-links {
-      display: none; /* Hide links by default */
-      width: 100%;   /* Force links to take full width */
-      order: 10;     /* Push them below the logo and hamburger */
+      display: none;
+      width: 100%;
+      order: 10;
       flex-direction: column;
       padding: var(--pico-spacing) 0;
     }
 
-    .nav-links li {
-      width: 100%;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--pico-muted-border-color);
-    }
-
-    /* THE MAGIC: If checkbox is checked, show the links */
     #menu-toggle:checked ~ .nav-links {
       display: flex;
     }
 
-    /* Optional: "X" Animation when open */
-    #menu-toggle:checked + .hamburger-menu span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
+    /* 4. The "X" Animation Trick */
+    #menu-toggle:checked + .hamburger-menu {
+      background-color: transparent; /* Hide the middle bar */
     }
-    #menu-toggle:checked + .hamburger-menu span:nth-child(2) {
-      opacity: 0;
+
+    #menu-toggle:checked + .hamburger-menu::before {
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
     }
-    #menu-toggle:checked + .hamburger-menu span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
+
+    #menu-toggle:checked + .hamburger-menu::after {
+      bottom: 50%;
+      transform: translateY(50%) rotate(-45deg);
     }
   }
 }
