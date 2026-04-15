@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AlpineCSS</title>
+    <script src="//unpkg.com/alpine-turnout" defer></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <link rel="stylesheet" href="/alpine.css">
+</head>
+<body x-data>
+
+    <header>
+        <nav>
+          <ul>
+            <li><strong>AlpineCSS</strong></li>
+          </ul>
+          
+          <input type="checkbox" id="menu-toggle" aria-label="Toggle menu">
+          <label for="menu-toggle" class="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+
+          <ul class="nav-links">
+            <li><a href="/" class="secondary">Home</a></li>
+            <li><a href="/user/john">Profile</a></li>
+            <li><a href="/search" role="button">Search</a></li>
+          </ul>
+        </nav>
+    </header>
+    <main>
+        <article x-route="/" x-title="Welcome Home" x-transition>
+            <p>This is the homepage.</p>
+        </article>
+
+        <article x-route="/user/:name" x-title="User Profile" x-transition>
+            <p>Hello, <strong x-text="name"></strong>!</p>
+        </article>
+
+        <article x-route="/search" x-title="Search" x-transition>
+            <div x-data="{ query: '' }">
+                <input type="text" x-model="query" placeholder="Type here...">
+                <p>Your input is preserved even if you switch tabs!</p>
+            </div>
+        </article>
+    </main>
+
+</body>
+</html>
