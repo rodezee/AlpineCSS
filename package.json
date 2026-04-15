@@ -1,6 +1,6 @@
 {
-  "name": "alpinecss",
-  "version": "1.0.0",
+  "name": "cssalpine",
+  "version": "1.0.1",
   "description": "AlpineCSS a tiny pico CSS Framework with nested-hamburger-menu support",
   "main": "./dist/alpine.min.css",
   "unpkg": "./dist/alpine.min.css",
