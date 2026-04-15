@@ -2457,11 +2457,9 @@ textarea,
   }
 }
 
-/* AlpineCSS: The Classless Hamburger & Dropdown Extension 
-  Integrates with PicoCSS Slate
-*/
+/* --- AlpineCSS: Complete Classless Hamburger & Dropdown Extension --- */
 
-/* --- 1. General Nav Setup --- */
+/* 1. Global Nav Setup */
 nav {
   flex-wrap: wrap;
   align-items: center;
@@ -2471,7 +2469,7 @@ nav {
   display: none !important;
 }
 
-/* --- 2. Hamburger Icon (Hidden on Desktop) --- */
+/* 2. Hamburger Icon (Strictly Mobile) */
 .hamburger-menu {
   display: none !important; 
   position: relative;
@@ -2501,11 +2499,15 @@ nav {
 .hamburger-menu::before { top: 0; }
 .hamburger-menu::after { bottom: 0; }
 
-/* --- 3. Dropdown Component --- */
+/* 3. Dropdown Component (Jump-Killer Logic) */
 nav details.dropdown {
   position: relative;
-  margin: 0;
-  padding: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  bottom: 2px; /* Fine-tuned baseline alignment */
+  display: inline-flex;
+  vertical-align: middle;
+  height: var(--pico-nav-element-height); 
 }
 
 nav details.dropdown summary {
@@ -2513,14 +2515,22 @@ nav details.dropdown summary {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  /* Match Pico's nav link spacing */
-  padding: var(--pico-nav-link-spacing-vertical) var(--pico-nav-link-spacing-horizontal);
+  height: 100%;
+  line-height: 1;
+  padding: 0 var(--pico-nav-link-spacing-horizontal);
   color: var(--pico-secondary);
-  transition: color var(--pico-transition);
+  transition: none !important; 
+  user-select: none;
 }
 
 nav details.dropdown summary:hover {
   color: var(--pico-primary);
+}
+
+nav details[open].dropdown summary {
+  background: transparent;
+  margin: 0 !important;
+  padding: 0 var(--pico-nav-link-spacing-horizontal) !important;
 }
 
 nav details.dropdown summary::-webkit-details-marker { 
@@ -2531,31 +2541,31 @@ nav details.dropdown summary::-webkit-details-marker {
 nav details.dropdown summary::after {
   content: "";
   display: inline-block;
-  width: 0.35rem;
-  height: 0.35rem;
+  width: 0.3rem;
+  height: 0.3rem;
   margin-left: 0.5rem;
-  border-right: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
-  transform: rotate(45deg);
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
   opacity: 0.7;
 }
 
-/* --- 4. Desktop Specific Styles (993px +) --- */
+/* 4. Desktop Specific Styles (993px +) */
 @media (min-width: 993px) {
   nav details.dropdown ul {
     display: flex;
     flex-direction: column;
     position: absolute;
-    left: 0;
+    left: var(--pico-nav-link-spacing-horizontal);
     top: 100%;
-    z-index: 99;
-    min-width: 150px;
+    z-index: 999;
+    min-width: 160px;
     background: var(--pico-background-color);
     border: 1px solid var(--pico-muted-border-color);
     border-radius: var(--pico-border-radius);
     box-shadow: var(--pico-card-box-shadow);
     padding: 0.5rem 0;
-    margin: 0;
+    margin: 0 !important;
   }
 
   nav details.dropdown ul li {
@@ -2571,7 +2581,7 @@ nav details.dropdown summary::after {
   }
 }
 
-/* --- 5. Mobile Specific Styles (992px and below) --- */
+/* 5. Mobile Specific Styles (992px and below) */
 @media (max-width: 992px) {
   .hamburger-menu {
     display: block !important;
@@ -2591,7 +2601,6 @@ nav details.dropdown summary::after {
     display: flex;
   }
 
-  /* Hamburger Animation to 'X' */
   #menu-toggle:checked + .hamburger-menu { 
     background-color: transparent; 
   }
@@ -2604,9 +2613,10 @@ nav details.dropdown summary::after {
     transform: translateY(50%) rotate(-45deg); 
   }
 
-  /* Mobile Dropdown (Accordion) */
   nav details.dropdown { 
     width: 100%; 
+    height: auto; 
+    bottom: 0; /* Reset nudge for vertical mobile stack */
   }
   
   nav details.dropdown ul {

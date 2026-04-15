@@ -1,0 +1,30 @@
+{
+  "name": "alpinecss",
+  "version": "1.0.0",
+  "description": "AlpineCSS a tiny pico CSS Framework with nested-hamburger-menu support",
+  "main": "./dist/alpine.min.css",
+  "unpkg": "./dist/alpine.min.css",
+  "jsdelivr": "./dist/alpine.min.css",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rodezee/AlpineCSS.git"
+  },
+  "keywords": [
+    "alpine",
+    "tiny",
+    "pico",
+    "css",
+    "hamburger",
+    "nested",
+    "menu"
+  ],
+  "author": "biensure",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
